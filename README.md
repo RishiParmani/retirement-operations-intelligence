@@ -40,8 +40,29 @@ Large CSVs are git-ignored and regenerate deterministically (seed 42). `data/sam
 ## What is verified and what is not
 Verified here: pipeline reproduces the reference KPIs; 28 tests pass; all SQL runs on DuckDB; the PBIP passes JSON-schema and cross-reference checks. **Not verified:** the PBIP has not been opened in Power BI Desktop in this environment (v3 changes: reworked average measures, two new pages, `ProjectRoot` parameter); DAX not executed; PostgreSQL load not run. Details: [docs/POWERBI_GUIDE.md](docs/POWERBI_GUIDE.md).
 
-## Dashboard screenshots
-Not included: none were captured from Power BI Desktop, and the repo does not fake them. Matplotlib figures from the EDA are in `reports/figures/`.
+## Power BI Dashboard
+
+The Power BI dashboard contains five pages covering executive-level KPIs, operational performance, SLA risk, root-cause analysis, and data quality.
+
+### 1. Executive Operations Overview
+
+![Executive Operations Overview](powerbi/screen-shots/01_executive_overview.png)
+
+### 2. Operational Performance Analysis
+
+![Operational Performance Analysis](powerbi/screen-shots/02_operational_performance.png)
+
+### 3. SLA & Operational Risk Analysis
+
+![SLA & Operational Risk Analysis](powerbi/screen-shots/03_sla_risk_analysis.png)
+
+### 4. Root Cause & Drivers
+
+![Root Cause & Drivers](powerbi/screen-shots/04_root_cause_analysis.png)
+
+### 5. Data Quality & Pipeline
+
+![Data Quality & Pipeline](powerbi/screen-shots/05_data_quality.png)
 
 ## Limitations
 Synthetic data with designed relationships; `Pending` is assigned at random; no real SLA calendars (business hours, holidays); model ceiling is low because of simulated noise.
