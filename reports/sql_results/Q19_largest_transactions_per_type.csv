@@ -1,0 +1,16 @@
+operation_type,operation_id,transaction_amount,status,sla_breached,rn
+Contribution Processing,OP-0199438,279710.99,Completed,1,1
+Contribution Processing,OP-0047914,236222.66,Completed,1,2
+Contribution Processing,OP-0049317,233370.82,Completed,0,3
+Distribution Request,OP-0060932,346502.72,Completed,0,1
+Distribution Request,OP-0175794,273269.0,Completed,0,2
+Distribution Request,OP-0188938,148075.97,Completed,0,3
+Fund Transfer,OP-0013386,238272.93,Completed,0,1
+Fund Transfer,OP-0193551,131777.74,Completed,0,2
+Fund Transfer,OP-0065210,129620.78,Completed,0,3
+Rollover Processing,OP-0120758,209902.44,Completed,1,1
+Rollover Processing,OP-0073475,127352.3,Completed,0,2
+Rollover Processing,OP-0195520,112781.27,Completed,0,3
+Withdrawal Processing,OP-0147137,255508.4,Completed,0,1
+Withdrawal Processing,OP-0080998,140909.31,Pending,0,2
+Withdrawal Processing,OP-0023781,140074.63,Completed,0,3

@@ -1,0 +1,20 @@
+rule_id,rule_name,stage,severity,rows_affected,pct_of_raw,action,description
+R01,Required field missing,reject,critical,0,0.0,Removed and written to the rejected-records file,"operation_id, operation_type, received_at, priority, status and sla_target_hours must be present; without them the record cannot be classified or measured."
+R02,Duplicate operation_id,reject,critical,600,0.2991,Removed and written to the rejected-records file,"operation_id is the primary key; the first occurrence is kept, repeats are exact duplicates created by replays/re-loads and would double count volume."
+R03,Invalid team category,reject,critical,800,0.3988,Removed and written to the rejected-records file,processing_team must be one of the five known teams; records with an unknown team cannot be attributed in workload analysis.
+R04,Invalid category value,reject,critical,0,0.0,Removed and written to the rejected-records file,"priority, status, operation_type, channel and region must come from the reference lists."
+R05,Negative processing hours,reject,critical,0,0.0,Removed and written to the rejected-records file,A negative duration is impossible. (The original ETL silently clipped these to 0; they are now rejected and reported instead.)
+R06,Negative transaction amount,reject,critical,0,0.0,Removed and written to the rejected-records file,Transaction amounts are non-negative in this data set.
+R07,Completion before receipt,reject,critical,0,0.0,Removed and written to the rejected-records file,completed_at earlier than received_at is impossible.
+R08,Completed without completion time,reject,critical,0,0.0,Removed and written to the rejected-records file,status = Completed requires completed_at.
+X01,Missing region set to 'Unknown',fix,info,1594,0.7946,Value imputed with the label 'Unknown',"region is missing for ~0.8% of records. The record is valid in every other respect, so it is kept and labelled 'Unknown' (excluded from region conclusions, included in all totals)."
+X02,sla_breached re-derived,fix,info,2748,1.3699,Value recomputed,"The generator marks Pending/Failed/Escalated items as breached when their (never realised) duration exceeds the target. SLA is only measurable on completed work, so breach = Completed AND processing_hours > target."
+F01,Work started after completion,flag,warning,16821,8.3853,Retained and flagged (no change to values),"started_at is later than completed_at on a completed operation. processing_hours is measured received->completed, so KPIs are unaffected, but the started_at/assigned_at timestamps are unreliable for touch-time analysis."
+F02,Assigned before received,flag,warning,0,0.0,Retained and flagged (no change to values),assigned_at earlier than received_at.
+F03,Started before assigned,flag,warning,0,0.0,Retained and flagged (no change to values),started_at earlier than assigned_at.
+F04,SLA target differs from policy,flag,warning,0,0.0,Retained and flagged (no change to values),sla_target_hours does not equal the policy value for the operation type.
+F05,Exception flag / type mismatch,flag,warning,0,0.0,Retained and flagged (no change to values),exception_flag and exception_type disagree.
+F06,Amount inconsistent with operation type,flag,warning,0,0.0,Retained and flagged (no change to values),"Financial operation with a zero amount, or a non-financial operation with an amount."
+F07,Extreme processing time (outlier),flag,warning,3486,1.7378,Retained and flagged (no change to values),"Completed operation above Q3 + 3xIQR of processing_hours. Retained: long-running cases are genuine operational findings, not errors."
+F08,Processing hours on a non-completed operation,flag,info,9627,4.7991,Retained and flagged (no change to values),"processing_hours is populated for Pending, Failed and Escalated operations although they never completed, so the value is not a real duration. All KPIs therefore use Completed operations only."
+F09,Stale pending item,flag,info,5238,2.6112,Retained and flagged (no change to values),Pending for more than 90 days at the data cut-off.

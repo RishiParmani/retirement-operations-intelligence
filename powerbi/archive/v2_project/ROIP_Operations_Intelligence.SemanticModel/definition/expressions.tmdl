@@ -1,0 +1,3 @@
+expression DataFolderPath = "C:\Users\Rishi Parmani\Downloads\ROIP_Full_Project\ROIP\data\processed" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 816aee4a-1630-5b2a-9e99-ca6462feffe7
+	annotation PBI_ResultType = Text

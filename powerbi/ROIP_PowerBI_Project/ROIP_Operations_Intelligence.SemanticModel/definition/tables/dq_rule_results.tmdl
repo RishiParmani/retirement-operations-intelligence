@@ -1,0 +1,63 @@
+table dq_rule_results
+	lineageTag: 57e4dacb-44be-56bd-9a21-fe907791ff63
+
+	column rule_id
+		dataType: string
+		lineageTag: 8b989248-e711-5937-913f-839e95592c83
+		summarizeBy: none
+		sourceColumn: rule_id
+
+	column rule_name
+		dataType: string
+		lineageTag: 7a9def24-28e6-57cb-a235-dc719d24a6a3
+		summarizeBy: none
+		sourceColumn: rule_name
+
+	column stage
+		dataType: string
+		lineageTag: 83f1e5ef-a853-51bf-a81c-c97a50714af4
+		summarizeBy: none
+		sourceColumn: stage
+
+	column severity
+		dataType: string
+		lineageTag: 1c45fd20-d517-58a4-9b1f-6f89499be06e
+		summarizeBy: none
+		sourceColumn: severity
+
+	column rows_affected
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4080f7cd-e0f2-507f-930f-e67cdb7ded65
+		summarizeBy: none
+		sourceColumn: rows_affected
+
+	column pct_of_raw
+		dataType: double
+		formatString: 0.00
+		lineageTag: 9bdc83ca-a2e5-52d4-98b3-909e0904b8a1
+		summarizeBy: none
+		sourceColumn: pct_of_raw
+
+	column action
+		dataType: string
+		lineageTag: bf280de7-1142-5600-a88b-3b7c03e042eb
+		summarizeBy: none
+		sourceColumn: action
+
+	column description
+		dataType: string
+		lineageTag: 30b90515-27a3-5fe5-b63d-b4d4a8a53654
+		summarizeBy: none
+		sourceColumn: description
+
+	partition dq_rule_results = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DQFolderPath & "\dq_rule_results.csv"), [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"rule_id", type text}, {"rule_name", type text}, {"stage", type text}, {"severity", type text}, {"rows_affected", Int64.Type}, {"pct_of_raw", type number}, {"action", type text}, {"description", type text}}, "en-US")
+				in
+					Typed
+

@@ -1,0 +1,11 @@
+metric,value
+raw_records,200600.0
+clean_records,199200.0
+rejected_records,1400.0
+acceptance_rate_pct,99.3
+completeness_required_fields_pct,100.0
+uniqueness_pct,99.7
+validity_pct,99.6
+region_imputed_unknown,1594.0
+warning_flag_events,20307.0
+mean_data_quality_score,99.4

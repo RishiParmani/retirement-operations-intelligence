@@ -1,0 +1,19 @@
+{
+  "total_operations": 199200,
+  "completed_operations": 189573,
+  "pending_operations": 7008,
+  "failed_operations": 2353,
+  "escalated_operations": 266,
+  "open_backlog": 7274,
+  "completion_rate_pct": 95.17,
+  "sla_breach_count": 50638,
+  "sla_breach_rate_pct": 26.71,
+  "sla_compliance_pct": 73.29,
+  "avg_processing_hours": 37.34,
+  "median_processing_hours": 26.77,
+  "exception_count": 20587,
+  "exception_rate_pct": 10.33,
+  "rework_count": 13216,
+  "rework_rate_pct": 6.63,
+  "total_transaction_amount": 441830129.55
+}

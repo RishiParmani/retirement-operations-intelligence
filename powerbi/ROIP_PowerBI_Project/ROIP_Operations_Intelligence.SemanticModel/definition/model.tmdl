@@ -1,0 +1,24 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["ProjectRoot","DataFolderPath","DQFolderPath","operations_clean","dq_rule_results","dq_run_summary"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table operations_clean
+ref table Calendar
+ref table dq_rule_results
+ref table dq_run_summary
+ref table DateTableTemplate_ff1c03e8-2e7f-4383-b6ba-53c1cbf95329
+ref table LocalDateTable_1b5b3773-dedc-41ad-96e8-0a67fecf6db1
+ref table LocalDateTable_0767d842-e360-4491-85e6-94bd85cbae0b
+ref table LocalDateTable_0b06360d-dd9e-47c3-8c8c-73ac5e221fc6
+

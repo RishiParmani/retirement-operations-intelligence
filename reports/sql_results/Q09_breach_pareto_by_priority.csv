@@ -1,0 +1,5 @@
+priority,completed,breaches,breach_rate_pct,share_of_breaches_pct,cumulative_share_pct
+Medium,91174,26990.0,29.6,53.3,53.3
+Low,34210,12949.0,37.85,25.57,78.87
+High,51004,9316.0,18.27,18.4,97.27
+Critical,13185,1383.0,10.49,2.73,100.0

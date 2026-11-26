@@ -1,0 +1,9 @@
+root_cause,exceptions,share_pct,cumulative_share_pct
+Validation Failure,2703,13.13,13.13
+Incorrect Data,2619,12.72,25.85
+System Dependency,2589,12.58,38.43
+Manual Processing,2583,12.55,50.97
+High Workload,2547,12.37,63.35
+Incomplete Documentation,2542,12.35,75.69
+Operational Error,2511,12.2,87.89
+Customer Dependency,2493,12.11,100.0

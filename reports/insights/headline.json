@@ -1,0 +1,80 @@
+{
+  "breach_rate_overall": 0.26711609775653705,
+  "breach_rate_by_priority": {
+    "Critical": 0.10489192263936291,
+    "High": 0.18265234099286332,
+    "Low": 0.37851505407775504,
+    "Medium": 0.2960273762256784
+  },
+  "breach_share_low_medium": 0.7887159840436035,
+  "breach_share_medium": 0.5329989336071724,
+  "avg_hours_by_priority": {
+    "Critical": 25.592313234736444,
+    "High": 31.676192847619795,
+    "Low": 44.97590499853844,
+    "Medium": 39.34738061289403
+  },
+  "breach_rate_info_missing": 0.6617332035053554,
+  "breach_rate_info_complete": 0.2445134771866617,
+  "completed_info_missing": 10270,
+  "breach_rate_exception": 0.613959745433849,
+  "breach_rate_no_exception": 0.22774103356319678,
+  "avg_hours_exception": 66.4741201428054,
+  "avg_hours_no_exception": 34.03537034643986,
+  "breach_rate_by_workload": {
+    "35-54": 0.19127092137621468,
+    "55-74": 0.2390566798737811,
+    "75-94": 0.27827546268938946,
+    "95+": 0.3285890501945156
+  },
+  "exception_rate_info_missing": 0.500874689255133,
+  "exception_rate_info_complete": 0.08042412883152188,
+  "rework_rate_exception": 0.3386117452761451,
+  "rework_rate_no_exception": 0.034963860413295786,
+  "excess_breaches_missing_info": 4287.341292644973,
+  "excess_share_missing_info": 0.08466648154834261,
+  "excess_breaches_exception": 7463.681434257303,
+  "excess_share_exception": 0.14739289534060002,
+  "total_breaches": 50638,
+  "jan2026_completed": 796,
+  "jan2026_received": 0,
+  "backlog_as_of": "2025-12-31 23:00:00",
+  "pending_over_90d": 5238,
+  "pending_total": 7008,
+  "p50_hours": 26.77,
+  "p90_hours": 77.37,
+  "p99_hours": 172.78,
+  "max_hours": 767.01,
+  "top_segment": {
+    "priority": "Low",
+    "intake_completeness": "Information missing",
+    "exception_status": "Exception raised",
+    "completed": 895,
+    "breaches": 744,
+    "breach_rate": 0.8312849162011173,
+    "avg_hours": 100.21994413407822,
+    "share_of_breaches": 0.01469252340139816
+  },
+  "strong_drivers": [
+    "exception_status",
+    "intake_completeness"
+  ],
+  "moderate_drivers": [
+    "rework_status",
+    "priority",
+    "workload_band"
+  ],
+  "no_effect_dims": [
+    "exception_type",
+    "root_cause",
+    "exception_severity",
+    "received_hour",
+    "region",
+    "received_month",
+    "received_day_of_week",
+    "channel",
+    "operation_type",
+    "processing_team",
+    "customer_segment"
+  ]
+}

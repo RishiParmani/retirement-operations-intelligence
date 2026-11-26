@@ -1,0 +1,9 @@
+status,age_bucket,operations
+Escalated,0-30 days,23
+Escalated,31-90 days,42
+Escalated,91-180 days,68
+Escalated,181+ days,133
+Pending,0-30 days,597
+Pending,31-90 days,1173
+Pending,91-180 days,1701
+Pending,181+ days,3537

@@ -1,0 +1,11 @@
+{
+  "total_operations": 199200,
+  "completed_operations": 189573,
+  "pending_operations": 7008,
+  "failed_operations": 2353,
+  "sla_compliance_pct": 73.29,
+  "avg_processing_hours": 37.34,
+  "exception_rate_pct": 10.33,
+  "rework_rate_pct": 6.63,
+  "total_transaction_amount": 441830129.55
+}

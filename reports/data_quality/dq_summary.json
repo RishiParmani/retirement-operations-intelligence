@@ -1,0 +1,16 @@
+{
+  "raw_records": 200600,
+  "clean_records": 199200,
+  "rejected_records": 1400,
+  "acceptance_rate_pct": 99.3,
+  "completeness_required_fields_pct": 100.0,
+  "uniqueness_pct": 99.7,
+  "validity_pct": 99.6,
+  "region_imputed_unknown": 1594,
+  "warning_flag_events": 20307,
+  "mean_data_quality_score": 99.4,
+  "rejected_by_reason": {
+    "Invalid team category": 800,
+    "Duplicate operation_id": 600
+  }
+}

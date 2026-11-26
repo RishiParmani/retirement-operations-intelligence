@@ -1,0 +1,9 @@
+priority,operation_type,avg_processing_hours,slowest_rank
+Critical,Plan Administration,52.5,1
+Critical,Distribution Request,40.68,2
+High,Plan Administration,66.63,1
+High,Rollover Processing,49.95,2
+Low,Plan Administration,95.14,1
+Low,Rollover Processing,71.53,2
+Medium,Plan Administration,83.0,1
+Medium,Rollover Processing,61.61,2

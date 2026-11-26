@@ -1,0 +1,11 @@
+risk_rank,priority,intake_completeness,exception_status,completed,breaches,breach_rate_pct
+1,Low,Information missing,Exception raised,895,744.0,83.13
+2,Medium,Information missing,Exception raised,2477,1971.0,79.57
+3,Low,Information missing,No exception,877,620.0,70.7
+4,High,Information missing,Exception raised,1378,968.0,70.25
+5,Low,Information complete,Exception raised,2625,1770.0,67.43
+6,Medium,Information complete,Exception raised,6774,4079.0,60.22
+7,Medium,Information missing,No exception,2583,1555.0,60.2
+8,High,Information complete,Exception raised,3824,1805.0,47.2
+9,High,Information missing,No exception,1347,619.0,45.95
+10,Low,Information complete,No exception,29813,9815.0,32.92

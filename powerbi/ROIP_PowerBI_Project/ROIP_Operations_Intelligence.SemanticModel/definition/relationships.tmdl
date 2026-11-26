@@ -1,0 +1,24 @@
+relationship af61fc73-9e9b-5114-a0ed-4d6931bd8326
+	fromColumn: operations_clean.received_date
+	toColumn: Calendar.Date
+
+relationship 756511a7-6af8-556a-bec6-cabf6061555c
+	isActive: false
+	fromColumn: operations_clean.completed_date
+	toColumn: Calendar.Date
+
+relationship 58df89e9-d35d-4f07-bd96-3763a29cd43e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: operations_clean.received_at
+	toColumn: LocalDateTable_1b5b3773-dedc-41ad-96e8-0a67fecf6db1.Date
+
+relationship f7f5ca09-f574-456c-ad69-d9b2866d8710
+	joinOnDateBehavior: datePartOnly
+	fromColumn: operations_clean.assigned_at
+	toColumn: LocalDateTable_0767d842-e360-4491-85e6-94bd85cbae0b.Date
+
+relationship 80700bf5-30b3-4177-97cf-290eda067cd7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: operations_clean.started_at
+	toColumn: LocalDateTable_0b06360d-dd9e-47c3-8c8c-73ac5e221fc6.Date
+

@@ -1,0 +1,601 @@
+table operations_clean
+	lineageTag: 2af83178-6277-5914-b67a-a7cbca7a537e
+
+	/// Count of operations.
+	measure 'Total Operations' = COUNTROWS(operations_clean)
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: 26e3fdd7-5372-5b33-a261-3903b6ce6d1b
+
+	measure 'Completed Operations' = CALCULATE([Total Operations], operations_clean[status] = "Completed")
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: a7e43be7-5322-5c49-9525-845049ec729d
+
+	measure 'Pending Operations' = CALCULATE([Total Operations], operations_clean[status] = "Pending")
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: f68cc15c-813c-56e0-ae41-cb798d3d7a37
+
+	measure 'Failed Operations' = CALCULATE([Total Operations], operations_clean[status] = "Failed")
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: d31596ac-1971-5d0d-8aa9-6fc0453d627d
+
+	measure 'Escalated Operations' = CALCULATE([Total Operations], operations_clean[status] = "Escalated")
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: 2ab97148-6c06-58de-b859-7ab58aa41858
+
+	measure 'Completion Rate %' = DIVIDE([Completed Operations], [Total Operations])
+		formatString: 0.0%
+		displayFolder: 1 Volume
+		lineageTag: 15897a65-aed0-55d0-983c-6a1d99f4912d
+
+	measure 'Operations Completed (by Completion Date)' = CALCULATE([Completed Operations], USERELATIONSHIP(operations_clean[completed_date], Calendar[Date]))
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: bc48eb0a-37e7-517c-bf94-6291c6688569
+
+	/// Helper: total processing hours of completed operations.
+	measure 'Completed Processing Hours' = CALCULATE(SUM(operations_clean[processing_hours]), operations_clean[status] = "Completed")
+		formatString: #,0.00
+		displayFolder: 2 Processing
+		lineageTag: dd0c20e4-4ae4-5957-b324-7561e4b9dd38
+
+	/// Helper: total SLA target hours of completed operations.
+	measure 'Completed SLA Target Hours' = CALCULATE(SUM(operations_clean[sla_target_hours]), operations_clean[status] = "Completed")
+		formatString: #,0
+		displayFolder: 2 Processing
+		lineageTag: e5c9d52c-0ba7-5569-87cd-cdc7b052b099
+
+	/// Mean processing hours, Completed operations only.
+	measure 'Average Processing Hours' = ROUND(DIVIDE([Completed Processing Hours], [Completed Operations]), 2)
+		formatString: 0.0
+		displayFolder: 2 Processing
+		lineageTag: 042c4aa7-e35d-5a82-857a-6aae1b4d5462
+
+	/// Mean SLA target hours, Completed operations only.
+	measure 'Average SLA Target Hours' = ROUND(DIVIDE([Completed SLA Target Hours], [Completed Operations]), 2)
+		formatString: 0.0
+		displayFolder: 2 Processing
+		lineageTag: 07f0c7d4-ecec-50d2-869d-6c62122452bf
+
+	/// Pending + Escalated.
+	measure 'Open Backlog' = [Pending Operations] + [Escalated Operations]
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: d1dad26c-28e3-50c3-9aab-0b6a0c09db94
+
+	/// Pending for more than 90 days as of the latest received date.
+	measure 'Stale Pending (over 90 days)' = CALCULATE([Total Operations], operations_clean[status] = "Pending", operations_clean[age_days] > 90)
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: 6914b49d-b00d-5334-9725-05795765d85b
+
+	measure 'SLA Breach Count' = CALCULATE(SUM(operations_clean[sla_breached]), operations_clean[status] = "Completed")
+		formatString: #,0
+		displayFolder: 3 SLA
+		lineageTag: 5fb1419b-bd1f-55d6-b0d4-e2c4f894b2d8
+
+	measure 'SLA Breach Rate' = DIVIDE([SLA Breach Count], [Completed Operations])
+		formatString: 0.0%
+		displayFolder: 3 SLA
+		lineageTag: d74ed57a-5ec0-5f2f-9eb8-7ebf9735b8ef
+
+	measure 'SLA Compliance %' = DIVIDE([Completed Operations] - [SLA Breach Count], [Completed Operations])
+		formatString: 0.0%
+		displayFolder: 3 SLA
+		lineageTag: fd875e8d-ce84-5bdd-a05e-57aae46336e1
+
+	measure 'Exception Count' = CALCULATE([Total Operations], operations_clean[exception_flag] = TRUE())
+		formatString: #,0
+		displayFolder: 4 Exceptions & Rework
+		lineageTag: 068afeb2-bb50-5679-8be0-c4ee597c8027
+
+	measure 'Exception Rate %' = DIVIDE([Exception Count], [Total Operations])
+		formatString: 0.0%
+		displayFolder: 4 Exceptions & Rework
+		lineageTag: 7e3bc8ee-2d44-55c6-83b1-d9d66afe64ee
+
+	measure 'Rework Count' = CALCULATE([Total Operations], operations_clean[rework_flag] = TRUE())
+		formatString: #,0
+		displayFolder: 4 Exceptions & Rework
+		lineageTag: 37403209-2fe6-5d5a-85a1-f4e1400950a3
+
+	measure 'Rework Rate %' = DIVIDE([Rework Count], [Total Operations])
+		formatString: 0.0%
+		displayFolder: 4 Exceptions & Rework
+		lineageTag: 52131eed-421c-5ea3-8dd3-74dd1a1ea8a6
+
+	/// This slice's share of all breaches in the current filter context.
+	measure 'Share of SLA Breaches' = DIVIDE([SLA Breach Count], CALCULATE([SLA Breach Count], ALLSELECTED(operations_clean)))
+		formatString: 0.0%
+		displayFolder: 3 SLA
+		lineageTag: 1ef098ca-6a0a-52f3-9e46-7bc6f2eadedb
+
+	/// Same as Open Backlog; used on the age chart.
+	measure 'Open Backlog Operations (by age)' = CALCULATE([Total Operations], operations_clean[status] IN {"Pending","Escalated"})
+		formatString: #,0
+		displayFolder: 1 Volume
+		lineageTag: b6143b31-76e7-5cd1-9bd9-bfdf445dd553
+
+	measure 'Total Transaction Amount' = SUM(operations_clean[transaction_amount])
+		formatString: $#,0.0,,
+		displayFolder: 5 Financial
+		lineageTag: f4c24b0c-85d3-52e9-9f35-c1f418858443
+
+	measure 'Insight - Top Volume Operation Type' =
+			VAR _t = ADDCOLUMNS(VALUES(operations_clean[operation_type]), "@v", [Total Operations])
+			VAR _top = TOPN(1, _t, [@v], DESC)
+			VAR _val = MAXX(_top, [@v])
+			RETURN IF(ISBLANK(_val), "n/a", MAXX(_top, operations_clean[operation_type]) & " (" & FORMAT(_val, "#,0") & ")")
+		displayFolder: 6 Insights
+		lineageTag: fca2f70f-a9b0-5ad0-aac5-7cdf999568e9
+
+	measure 'Insight - Most SLA Breaches (Operation Type)' =
+			VAR _t = ADDCOLUMNS(VALUES(operations_clean[operation_type]), "@v", [SLA Breach Count])
+			VAR _top = TOPN(1, _t, [@v], DESC)
+			VAR _val = MAXX(_top, [@v])
+			RETURN IF(ISBLANK(_val), "n/a", MAXX(_top, operations_clean[operation_type]) & " (" & FORMAT(_val, "#,0") & ")")
+		displayFolder: 6 Insights
+		lineageTag: c090c5ec-a851-5581-a2d4-7eab9dffed65
+
+	measure 'Insight - Highest SLA Breach Rate (Priority)' =
+			VAR _t = ADDCOLUMNS(VALUES(operations_clean[priority]), "@v", [SLA Breach Rate])
+			VAR _top = TOPN(1, _t, [@v], DESC)
+			VAR _val = MAXX(_top, [@v])
+			RETURN IF(ISBLANK(_val), "n/a", MAXX(_top, operations_clean[priority]) & " (" & FORMAT(_val, "0.0%") & ")")
+		displayFolder: 6 Insights
+		lineageTag: 808c19d3-ab4a-5fcb-a853-61f8ee189124
+
+	measure 'Insight - Region With Most Exceptions' =
+			VAR _t = ADDCOLUMNS(VALUES(operations_clean[region]), "@v", [Exception Count])
+			VAR _top = TOPN(1, _t, [@v], DESC)
+			VAR _val = MAXX(_top, [@v])
+			RETURN IF(ISBLANK(_val), "n/a", MAXX(_top, operations_clean[region]) & " (" & FORMAT(_val, "#,0") & ")")
+		displayFolder: 6 Insights
+		lineageTag: d9250a9f-5c55-5913-b909-8b640a2b83ce
+
+	measure 'Insight - Highest Exception Rate (Channel)' =
+			VAR _t = ADDCOLUMNS(VALUES(operations_clean[channel]), "@v", [Exception Rate %])
+			VAR _top = TOPN(1, _t, [@v], DESC)
+			VAR _val = MAXX(_top, [@v])
+			RETURN IF(ISBLANK(_val), "n/a", MAXX(_top, operations_clean[channel]) & " (" & FORMAT(_val, "0.0%") & ")")
+		displayFolder: 6 Insights
+		lineageTag: da14682b-ef3a-5429-8da7-a2f409798287
+
+	measure 'Insight - Highest Rework Rate (Operation Type)' =
+			VAR _t = ADDCOLUMNS(VALUES(operations_clean[operation_type]), "@v", [Rework Rate %])
+			VAR _top = TOPN(1, _t, [@v], DESC)
+			VAR _val = MAXX(_top, [@v])
+			RETURN IF(ISBLANK(_val), "n/a", MAXX(_top, operations_clean[operation_type]) & " (" & FORMAT(_val, "0.0%") & ")")
+		displayFolder: 6 Insights
+		lineageTag: cdcb42ff-94dd-5d2b-ac8a-06d7983228ac
+
+	measure 'Insight - Peak Month By Volume' =
+			VAR _t = ADDCOLUMNS(VALUES(Calendar[Month Year]), "@v", [Total Operations])
+			VAR _top = TOPN(1, _t, [@v], DESC)
+			VAR _val = MAXX(_top, [@v])
+			RETURN IF(ISBLANK(_val), "n/a", MAXX(_top, Calendar[Month Year]) & " (" & FORMAT(_val, "#,0") & ")")
+		displayFolder: 6 Insights
+		lineageTag: 5aa2232f-503a-5136-84c5-daf1096edb2b
+
+	/// Records in the raw extract.
+	measure 'DQ Raw Records' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "raw_records")
+		formatString: #,0
+		displayFolder: 7 Data Quality
+		lineageTag: aef04691-765f-5adf-b277-2a19cfa6bd98
+
+	/// Records loaded after validation.
+	measure 'DQ Clean Records' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "clean_records")
+		formatString: #,0
+		displayFolder: 7 Data Quality
+		lineageTag: 69df4e5d-1683-5354-b521-c367be7534e5
+
+	/// Records refused by reject rules (see dq_rejected_records.csv).
+	measure 'DQ Rejected Records' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "rejected_records")
+		formatString: #,0
+		displayFolder: 7 Data Quality
+		lineageTag: df6fc4c7-1c71-52e1-aca5-726d2c261dd8
+
+	/// Clean / raw, in percent.
+	measure 'DQ Acceptance Rate %' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "acceptance_rate_pct")
+		formatString: 0.0
+		displayFolder: 7 Data Quality
+		lineageTag: f4363770-9521-5179-b6a0-938038b81f5c
+
+	/// Share of raw records with a unique operation_id.
+	measure 'DQ Uniqueness %' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "uniqueness_pct")
+		formatString: 0.0
+		displayFolder: 7 Data Quality
+		lineageTag: 3a371081-ede2-5ee6-bf47-c7cff655a9bc
+
+	/// Share of raw records passing category / range rules.
+	measure 'DQ Validity %' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "validity_pct")
+		formatString: 0.0
+		displayFolder: 7 Data Quality
+		lineageTag: 3d23c15e-ff1d-5162-967f-0d8c0ee7ae3c
+
+	/// Missing region labelled Unknown (not dropped).
+	measure 'DQ Region Imputed' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "region_imputed_unknown")
+		formatString: #,0
+		displayFolder: 7 Data Quality
+		lineageTag: 6760368b-a93b-5872-8d9a-207a5dc28223
+
+	/// Flag-stage rule hits (records retained).
+	measure 'DQ Warning Flags' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "warning_flag_events")
+		formatString: #,0
+		displayFolder: 7 Data Quality
+		lineageTag: c370f65e-d3ad-55ce-807a-d740a8bdfa87
+
+	/// Mean per-record data_quality_score.
+	measure 'DQ Mean Quality Score' = CALCULATE(SUM(dq_run_summary[value]), dq_run_summary[metric] = "mean_data_quality_score")
+		formatString: 0.0
+		displayFolder: 7 Data Quality
+		lineageTag: c33e52bb-2d64-513f-9d6c-e7916af3b19c
+
+	measure 'Rule Rows Affected' = SUM(dq_rule_results[rows_affected])
+		formatString: #,0
+		displayFolder: 7 Data Quality
+		lineageTag: ffff88c2-0f3f-5be0-b27c-ecdf33f61b33
+
+	measure 'Rule Pct of Raw' = SUM(dq_rule_results[pct_of_raw])
+		formatString: 0.00
+		displayFolder: 7 Data Quality
+		lineageTag: e3743b9c-7755-5590-bff0-2270b90b0352
+
+	/// Diagnostic: should equal Total Operations.
+	measure 'Diag - Row Count' = COUNTROWS(operations_clean)
+		formatString: #,0
+		displayFolder: 8 Diagnostics
+		lineageTag: c284e983-7965-5ef7-89cf-2b90fcbe5eb2
+
+	/// Diagnostic: completed rows where processing_hours loaded as a number. If lower than Completed Operations, the CSV column is not typed numeric.
+	measure 'Diag - Completed Rows With Hours' = CALCULATE(COUNTROWS(operations_clean), operations_clean[status] = "Completed", NOT ISBLANK(operations_clean[processing_hours]))
+		formatString: #,0
+		displayFolder: 8 Diagnostics
+		lineageTag: 0aa0e2b0-965c-5c28-9133-de2b49595330
+
+	/// Diagnostic: if blank, processing_hours did not load as numbers.
+	measure 'Diag - Sum Processing Hours' = SUM(operations_clean[processing_hours])
+		formatString: #,0
+		displayFolder: 8 Diagnostics
+		lineageTag: 47a15a49-3ee2-5af3-bdd6-4962d7511cde
+
+	measure 'Diag - Min Sla Target' = MIN(operations_clean[sla_target_hours])
+		formatString: 0
+		displayFolder: 8 Diagnostics
+		lineageTag: ebeb0631-c176-5eff-83fd-e4ffbd0cc711
+
+	column operation_id
+		dataType: string
+		lineageTag: 098b2210-d62d-5aa1-83c1-84590a82e230
+		summarizeBy: none
+		sourceColumn: operation_id
+
+	column operation_type
+		dataType: string
+		lineageTag: 33b9e985-b143-5943-a4de-42e2e8d22a1b
+		summarizeBy: none
+		sourceColumn: operation_type
+
+	column priority
+		dataType: string
+		lineageTag: 989d7fb6-c3bc-5af1-acb4-81555ee543f9
+		summarizeBy: none
+		sourceColumn: priority
+		sortByColumn: priority_rank
+
+	column channel
+		dataType: string
+		lineageTag: 67534cd6-9b9a-5576-8caf-ef6284b9a1d2
+		summarizeBy: none
+		sourceColumn: channel
+
+	column region
+		dataType: string
+		lineageTag: 5ca0806c-11d3-5d19-b430-69b5dee2eeb2
+		summarizeBy: none
+		sourceColumn: region
+
+	column processing_team
+		dataType: string
+		lineageTag: 777eed99-23d6-5139-9899-2de2ba9d457a
+		summarizeBy: none
+		sourceColumn: processing_team
+
+	column team_workload
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7b263b53-036a-56d8-9794-c9a26a54a290
+		summarizeBy: sum
+		sourceColumn: team_workload
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_segment
+		dataType: string
+		lineageTag: acdcddea-f931-573a-897a-bcc59def1c2a
+		summarizeBy: none
+		sourceColumn: customer_segment
+
+	column received_at
+		dataType: dateTime
+		isHidden
+		formatString: dd mmm yyyy hh:nn
+		lineageTag: e0dfc7bb-5f20-51ef-bf41-5a489211771c
+		summarizeBy: none
+		sourceColumn: received_at
+
+		variation Variation
+			isDefault
+			relationship: 58df89e9-d35d-4f07-bd96-3763a29cd43e
+			defaultHierarchy: LocalDateTable_1b5b3773-dedc-41ad-96e8-0a67fecf6db1.'Date Hierarchy'
+
+	column assigned_at
+		dataType: dateTime
+		isHidden
+		formatString: dd mmm yyyy hh:nn
+		lineageTag: 5cd49969-7d15-51c6-8af8-8bf12fc4f71b
+		summarizeBy: none
+		sourceColumn: assigned_at
+
+		variation Variation
+			isDefault
+			relationship: f7f5ca09-f574-456c-ad69-d9b2866d8710
+			defaultHierarchy: LocalDateTable_0767d842-e360-4491-85e6-94bd85cbae0b.'Date Hierarchy'
+
+	column started_at
+		dataType: dateTime
+		isHidden
+		formatString: dd mmm yyyy hh:nn
+		lineageTag: 67e43cc9-2690-5401-a59f-c6e21b94fcf5
+		summarizeBy: none
+		sourceColumn: started_at
+
+		variation Variation
+			isDefault
+			relationship: 80700bf5-30b3-4177-97cf-290eda067cd7
+			defaultHierarchy: LocalDateTable_0b06360d-dd9e-47c3-8c8c-73ac5e221fc6.'Date Hierarchy'
+
+	column status
+		dataType: string
+		lineageTag: 57326b53-ae89-5425-bb60-ec7f741854f8
+		summarizeBy: none
+		sourceColumn: status
+
+	column exception_flag
+		dataType: boolean
+		lineageTag: 0b4d8728-02fe-581c-b5f9-c9895f242595
+		summarizeBy: none
+		sourceColumn: exception_flag
+
+	column exception_type
+		dataType: string
+		lineageTag: a352f160-2a8a-5b68-9d5b-a854460a60d8
+		summarizeBy: none
+		sourceColumn: exception_type
+
+	column exception_severity
+		dataType: string
+		lineageTag: ea75dc7a-81b6-59d9-9029-1ca66bf07ebf
+		summarizeBy: none
+		sourceColumn: exception_severity
+
+	column root_cause
+		dataType: string
+		lineageTag: 0f5807d9-93ca-5c6d-a3fc-5bc05d2643c5
+		summarizeBy: none
+		sourceColumn: root_cause
+
+	column rework_flag
+		dataType: boolean
+		lineageTag: d18097dd-459a-5b55-b713-6470bd5bb65c
+		summarizeBy: none
+		sourceColumn: rework_flag
+
+	column sla_target_hours
+		dataType: int64
+		formatString: #,0
+		lineageTag: 825b03bc-cabf-54a0-bc3f-d3f4c42d41fc
+		summarizeBy: sum
+		sourceColumn: sla_target_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column processing_hours
+		dataType: double
+		formatString: #,0.00
+		lineageTag: c15c6f59-5fa9-5a2a-8213-1c0c0b1b25bb
+		summarizeBy: sum
+		sourceColumn: processing_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column sla_breached
+		dataType: int64
+		formatString: 0
+		lineageTag: 21793ea2-4526-5dbe-bae0-e84f53d389f3
+		summarizeBy: sum
+		sourceColumn: sla_breached
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_amount
+		dataType: double
+		formatString: $#,0.00
+		lineageTag: 49f647d0-1a94-5e22-9ea4-6e87de6e432c
+		summarizeBy: sum
+		sourceColumn: transaction_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency
+		dataType: string
+		lineageTag: 8676e9ee-91f3-5b76-970d-60dda76a6533
+		summarizeBy: none
+		sourceColumn: currency
+
+	column missing_info_flag
+		dataType: boolean
+		lineageTag: e8638db8-7c2c-5cd8-ab23-625c7c7ac156
+		summarizeBy: none
+		sourceColumn: missing_info_flag
+
+	column received_date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 6393302e-08de-5acc-9d73-6e5e18b033a0
+		summarizeBy: none
+		sourceColumn: received_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_quality_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 3fc984c6-4c41-5afe-b60b-c4c0703694ec
+		summarizeBy: sum
+		sourceColumn: data_quality_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column completed_date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 747f95d8-5502-5364-8772-c62d73038397
+		summarizeBy: none
+		sourceColumn: completed_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column priority_rank
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9e113dcf-76c0-5c39-98a2-a6e936040a97
+		summarizeBy: sum
+		sourceColumn: priority_rank
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_days
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0a5a0e14-ec8a-51d5-9024-a93ec22b017f
+		summarizeBy: sum
+		sourceColumn: age_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_band
+		dataType: string
+		lineageTag: 6fbb9d9d-f2aa-5c31-9123-4438fba913d8
+		summarizeBy: none
+		sourceColumn: age_band
+		sortByColumn: age_band_order
+
+	column age_band_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 38b88196-f556-57af-ad44-64be43f036c7
+		summarizeBy: sum
+		sourceColumn: age_band_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column intake_completeness
+		dataType: string
+		lineageTag: 1b73f27a-9380-515c-b3c1-55898f9bf1a5
+		summarizeBy: none
+		sourceColumn: intake_completeness
+
+	column exception_status
+		dataType: string
+		lineageTag: e8b83758-cb0a-52d9-8be8-69ad9051abbb
+		summarizeBy: none
+		sourceColumn: exception_status
+
+	column rework_status
+		dataType: string
+		lineageTag: 3d9307bf-1737-53e4-8ece-2570d509cccc
+		summarizeBy: none
+		sourceColumn: rework_status
+
+	column workload_band
+		dataType: string
+		lineageTag: 904220e5-f31c-5aba-9a9e-dbe417407bc1
+		summarizeBy: none
+		sourceColumn: workload_band
+		sortByColumn: workload_band_order
+
+	column workload_band_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a471d048-e8c4-5efc-b778-a072b4b82663
+		summarizeBy: sum
+		sourceColumn: workload_band_order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition operations_clean = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(Text.TrimEnd(DataFolderPath, "\") & "\operations_clean.csv"), [Delimiter=",", Columns=33, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {
+								{"operation_id", type text},
+								{"customer_id", type text},
+								{"account_id", type text},
+								{"plan_id", type text},
+								{"operation_type", type text},
+								{"priority", type text},
+								{"channel", type text},
+								{"region", type text},
+								{"processing_team", type text},
+								{"team_workload", Int64.Type},
+								{"customer_segment", type text},
+								{"received_at", type datetime},
+								{"assigned_at", type datetime},
+								{"started_at", type datetime},
+								{"completed_at", type datetime},
+								{"status", type text},
+								{"exception_flag", type logical},
+								{"exception_type", type text},
+								{"exception_severity", type text},
+								{"root_cause", type text},
+								{"rework_flag", type logical},
+								{"sla_target_hours", Int64.Type},
+								{"processing_hours", type number},
+								{"sla_breached", Int64.Type},
+								{"transaction_amount", type number},
+								{"currency", type text},
+								{"missing_info_flag", type logical},
+								{"received_date", type date},
+								{"received_year", Int64.Type},
+								{"received_month", Int64.Type},
+								{"received_week", Int64.Type},
+								{"received_day_of_week", type text},
+								{"data_quality_score", Int64.Type}
+							}, "en-US"),
+					AddCompletedDate = Table.AddColumn(Typed, "completed_date", each if [completed_at] = null then null else DateTime.Date([completed_at]), type nullable date),
+					AddPriorityRank = Table.AddColumn(AddCompletedDate, "priority_rank", each if [priority] = "Critical" then 1 else if [priority] = "High" then 2 else if [priority] = "Medium" then 3 else 4, Int64.Type),
+					AsOf = List.Max(Typed[received_at]),
+					AddAge = Table.AddColumn(AddPriorityRank, "age_days", each Duration.Days(AsOf - [received_at]), Int64.Type),
+					AddAgeBand = Table.AddColumn(AddAge, "age_band", each if [age_days] <= 30 then "0-30 days" else if [age_days] <= 90 then "31-90 days" else if [age_days] <= 180 then "91-180 days" else "181+ days", type text),
+					AddAgeOrder = Table.AddColumn(AddAgeBand, "age_band_order", each if [age_days] <= 30 then 1 else if [age_days] <= 90 then 2 else if [age_days] <= 180 then 3 else 4, Int64.Type),
+					AddIntake = Table.AddColumn(AddAgeOrder, "intake_completeness", each if [missing_info_flag] = true then "Information missing" else "Information complete", type text),
+					AddExc = Table.AddColumn(AddIntake, "exception_status", each if [exception_flag] = true then "Exception raised" else "No exception", type text),
+					AddRw = Table.AddColumn(AddExc, "rework_status", each if [rework_flag] = true then "Reworked" else "No rework", type text),
+					AddWl = Table.AddColumn(AddRw, "workload_band", each if [team_workload] <= 54 then "35-54" else if [team_workload] <= 74 then "55-74" else if [team_workload] <= 94 then "75-94" else "95+", type text),
+					AddWlOrder = Table.AddColumn(AddWl, "workload_band_order", each if [team_workload] <= 54 then 1 else if [team_workload] <= 74 then 2 else if [team_workload] <= 94 then 3 else 4, Int64.Type),
+					Trimmed = Table.RemoveColumns(AddWlOrder, {"customer_id", "account_id", "plan_id", "completed_at", "received_year", "received_month", "received_week", "received_day_of_week"}),
+					Reordered = Table.ReorderColumns(Trimmed, {"operation_id", "operation_type", "priority", "channel", "region", "processing_team", "team_workload", "customer_segment", "received_at", "assigned_at", "started_at", "status", "exception_flag", "exception_type", "exception_severity", "root_cause", "rework_flag", "sla_target_hours", "processing_hours", "sla_breached", "transaction_amount", "currency", "missing_info_flag", "received_date", "data_quality_score", "completed_date", "priority_rank", "age_days", "age_band", "age_band_order", "intake_completeness", "exception_status", "rework_status", "workload_band", "workload_band_order"})
+				in
+					Reordered
+

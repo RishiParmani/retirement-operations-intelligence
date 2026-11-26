@@ -1,0 +1,10 @@
+operation_type,sla_target_hours,is_financial,completed,avg_processing_hours,avg_hours_vs_target,sla_breach_rate_pct
+Contribution Processing,24,True,30368,19.62,0.818,26.9
+Customer Service Request,24,False,22685,19.54,0.814,26.69
+Fund Transfer,24,True,24792,19.53,0.814,26.79
+Account Maintenance,48,False,24537,39.13,0.815,26.65
+Beneficiary Update,48,False,16997,39.04,0.813,26.92
+Withdrawal Processing,48,True,22698,38.95,0.811,26.51
+Distribution Request,72,True,15304,58.41,0.811,26.42
+Rollover Processing,72,True,18927,58.7,0.815,26.42
+Plan Administration,96,False,13265,78.64,0.819,27.11

@@ -1,0 +1,8 @@
+relationship af61fc73-9e9b-5114-a0ed-4d6931bd8326
+	fromColumn: operations_clean.received_date
+	toColumn: Calendar.Date
+
+relationship 756511a7-6af8-556a-bec6-cabf6061555c
+	isActive: false
+	fromColumn: operations_clean.completed_date
+	toColumn: Calendar.Date

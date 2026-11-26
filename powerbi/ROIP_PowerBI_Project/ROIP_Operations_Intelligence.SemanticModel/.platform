@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "ROIP Operations Intelligence"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "839cf698-1153-5052-bffe-b33a66e83726"
+  }
+}

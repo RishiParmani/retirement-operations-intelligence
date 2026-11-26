@@ -1,0 +1,26 @@
+table dq_run_summary
+	lineageTag: 332a5dc5-211e-590f-999f-600705a71a40
+
+	column metric
+		dataType: string
+		lineageTag: 97cb96f4-2d40-538e-bd93-21fbe20415ef
+		summarizeBy: none
+		sourceColumn: metric
+
+	column value
+		dataType: double
+		formatString: #,0.0
+		lineageTag: d5de5742-34fe-5523-92ee-98761deb1b7a
+		summarizeBy: none
+		sourceColumn: value
+
+	partition dq_run_summary = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DQFolderPath & "\dq_run_summary.csv"), [Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"metric", type text}, {"value", type number}}, "en-US")
+				in
+					Typed
+

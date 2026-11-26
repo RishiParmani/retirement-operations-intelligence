@@ -1,0 +1,41 @@
+{
+  "name": "ROIP Navy",
+  "dataColors": [
+    "#2563EB",
+    "#0F9D8A",
+    "#F59E0B",
+    "#DC2626",
+    "#64748B",
+    "#7C3AED",
+    "#0EA5E9",
+    "#94A3B8"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#1E293B",
+  "tableAccent": "#0B1F3A",
+  "good": "#0F9D8A",
+  "neutral": "#F59E0B",
+  "bad": "#DC2626",
+  "textClasses": {
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#1E293B"
+    },
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 11,
+      "color": "#1E293B"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 24,
+      "color": "#0B1F3A"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 11,
+      "color": "#1E293B"
+    }
+  }
+}

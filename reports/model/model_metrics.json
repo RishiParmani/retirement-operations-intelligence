@@ -1,0 +1,184 @@
+{
+  "split": {
+    "train_rows": 141905,
+    "test_rows": 47668,
+    "train_period": "2025-01 to 2025-09",
+    "test_period": "2025-10 to 2025-12",
+    "prevalence_train": 0.2671082766639653,
+    "prevalence_test": 0.2671393807166233
+  },
+  "models": {
+    "A_intake|logreg": {
+      "roc_auc": 0.6380001658358405,
+      "pr_auc": 0.3688809725204776,
+      "brier": 0.1869227926717827,
+      "prevalence": 0.2671393807166233,
+      "top20pct_review": {
+        "flagged": 9534,
+        "precision": 0.4000419551080344,
+        "recall": 0.2995131144966232,
+        "lift": 1.497502741957734,
+        "confusion": {
+          "tn": 29214,
+          "fp": 5720,
+          "fn": 8920,
+          "tp": 3814
+        }
+      },
+      "prediction_point": "When the operation is received",
+      "n_features": 10,
+      "cv_auc_mean_train": 0.6426418473990885,
+      "cv_auc_std_train": 0.0016155941210477286
+    },
+    "A_intake|hgb": {
+      "roc_auc": 0.6378662610152184,
+      "pr_auc": 0.36814570263319496,
+      "brier": 0.18695489970283571,
+      "prevalence": 0.2671393807166233,
+      "top20pct_review": {
+        "flagged": 9534,
+        "precision": 0.40056639395846444,
+        "recall": 0.29990576409612063,
+        "lift": 1.4994659075869392,
+        "confusion": {
+          "tn": 29219,
+          "fp": 5715,
+          "fn": 8915,
+          "tp": 3819
+        }
+      },
+      "prediction_point": "When the operation is received",
+      "n_features": 10
+    },
+    "B_triage|logreg": {
+      "roc_auc": 0.6769163078584708,
+      "pr_auc": 0.4509318433486133,
+      "brier": 0.17839679523814117,
+      "prevalence": 0.2671393807166233,
+      "top20pct_review": {
+        "flagged": 9534,
+        "precision": 0.4620306272288651,
+        "recall": 0.3459242971572169,
+        "lift": 1.72954891932979,
+        "confusion": {
+          "tn": 29805,
+          "fp": 5129,
+          "fn": 8329,
+          "tp": 4405
+        }
+      },
+      "prediction_point": "After the intake completeness check",
+      "n_features": 11,
+      "cv_auc_mean_train": 0.6836303208304181,
+      "cv_auc_std_train": 0.0011064056254381988
+    },
+    "B_triage|hgb": {
+      "roc_auc": 0.6767376530774822,
+      "pr_auc": 0.4500610979135754,
+      "brier": 0.1784872064152574,
+      "prevalence": 0.2671393807166233,
+      "top20pct_review": {
+        "flagged": 9534,
+        "precision": 0.46129641283826306,
+        "recall": 0.3453745877179205,
+        "lift": 1.7268004874489025,
+        "confusion": {
+          "tn": 29798,
+          "fp": 5136,
+          "fn": 8336,
+          "tp": 4398
+        }
+      },
+      "prediction_point": "After the intake completeness check",
+      "n_features": 11
+    },
+    "C_in_flight|logreg": {
+      "roc_auc": 0.7225329612333029,
+      "pr_auc": 0.5186889159989871,
+      "brier": 0.16820291124980816,
+      "prevalence": 0.2671393807166233,
+      "top20pct_review": {
+        "flagged": 9534,
+        "precision": 0.538388923851479,
+        "recall": 0.4030940788440396,
+        "lift": 2.0153858349420686,
+        "confusion": {
+          "tn": 30533,
+          "fp": 4401,
+          "fn": 7601,
+          "tp": 5133
+        }
+      },
+      "prediction_point": "While work is in progress (monitoring)",
+      "n_features": 13,
+      "cv_auc_mean_train": 0.7331086604578121,
+      "cv_auc_std_train": 0.0010966116222770887
+    },
+    "C_in_flight|hgb": {
+      "roc_auc": 0.7231876971908229,
+      "pr_auc": 0.5180506890853382,
+      "brier": 0.16796910062469583,
+      "prevalence": 0.2671393807166233,
+      "top20pct_review": {
+        "flagged": 9534,
+        "precision": 0.538598699391651,
+        "recall": 0.40325113868383855,
+        "lift": 2.0161711011937506,
+        "confusion": {
+          "tn": 30535,
+          "fp": 4399,
+          "fn": 7599,
+          "tp": 5135
+        }
+      },
+      "prediction_point": "While work is in progress (monitoring)",
+      "n_features": 13
+    }
+  },
+  "baselines": {
+    "prior_rate_only": {
+      "roc_auc": 0.5
+    },
+    "priority_rate_table": {
+      "roc_auc": 0.605565424010449,
+      "pr_auc": 0.3232827596026931,
+      "brier": 0.18977122594752485,
+      "prevalence": 0.2671393807166233,
+      "top20pct_review": {
+        "flagged": 9534,
+        "precision": 0.36773652192154394,
+        "recall": 0.2753258991675828,
+        "lift": 1.3765717391986931,
+        "confusion": {
+          "tn": 28906,
+          "fp": 6028,
+          "fn": 9228,
+          "tp": 3506
+        }
+      }
+    },
+    "priority_x_missing_info_rate_table": {
+      "roc_auc": 0.6475453287852668,
+      "pr_auc": 0.3888338704022848,
+      "brier": 0.18126067944835186,
+      "prevalence": 0.2671393807166233,
+      "top20pct_review": {
+        "flagged": 9534,
+        "precision": 0.43601846024753516,
+        "recall": 0.3264488770221454,
+        "lift": 1.6321759041212114,
+        "confusion": {
+          "tn": 29557,
+          "fp": 5377,
+          "fn": 8577,
+          "tp": 4157
+        }
+      }
+    }
+  },
+  "legacy_model": {
+    "description": "Original random forest, random split, uses exception/rework flags",
+    "roc_auc": 0.7152244891899681
+  },
+  "recommended": "B_triage|logreg"
+}

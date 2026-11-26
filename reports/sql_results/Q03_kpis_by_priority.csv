@@ -1,0 +1,5 @@
+priority,completed,sla_breach_rate_pct,avg_processing_hours,exception_rate_pct
+Critical,13185,10.49,25.59,10.39
+High,51004,18.27,31.68,10.3
+Medium,91174,29.6,39.35,10.31
+Low,34210,37.85,44.98,10.44

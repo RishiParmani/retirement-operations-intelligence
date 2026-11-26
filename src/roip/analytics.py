@@ -1,14 +1,12 @@
-import pandas as pd
+"""Backwards-compatible entry points. KPI logic now lives in ``kpis.py`` (single source of truth).
 
-def kpi_summary(df):
-    completed=df[df.status=="Completed"]
-    return {
-        "total_operations":int(len(df)),"completed_operations":int(len(completed)),"pending_operations":int((df.status=="Pending").sum()),
-        "failed_operations":int((df.status=="Failed").sum()),"sla_compliance_pct":round(100*(1-completed.sla_breached.mean()),2) if len(completed) else 0,
-        "avg_processing_hours":round(completed.processing_hours.mean(),2) if len(completed) else 0,
-        "exception_rate_pct":round(100*df.exception_flag.mean(),2),"rework_rate_pct":round(100*df.rework_flag.mean(),2),
-        "total_transaction_amount":round(float(df.transaction_amount.sum()),2)
-    }
+NOTE: the original ``group_performance`` averaged sla_breached and processing_hours over ALL statuses, which
+disagreed with ``kpi_summary`` (completed only). It now delegates to ``group_kpis`` so both agree."""
+from __future__ import annotations
+from .kpis import kpi_summary, group_kpis
+
 
 def group_performance(df, group_col):
-    return df.groupby(group_col,dropna=False).agg(operations=("operation_id","count"),avg_processing_hours=("processing_hours","mean"),sla_breach_rate=("sla_breached","mean"),exception_rate=("exception_flag","mean"),rework_rate=("rework_flag","mean")).sort_values("operations",ascending=False)
+    return group_kpis(df, group_col).set_index(group_col).sort_values("operations", ascending=False)
+
+__all__ = ["kpi_summary", "group_performance", "group_kpis"]

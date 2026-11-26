@@ -1,0 +1,2 @@
+total_operations,completed_operations,pending_operations,failed_operations,escalated_operations,open_backlog,sla_breach_count,sla_compliance_pct,avg_processing_hours,median_processing_hours,exception_count,exception_rate_pct,rework_count,rework_rate_pct,total_transaction_amount
+199200,189573,7008,2353,266,7274,50638.0,73.29,37.34,26.77,20587.0,10.33,13216.0,6.63,441830129.55

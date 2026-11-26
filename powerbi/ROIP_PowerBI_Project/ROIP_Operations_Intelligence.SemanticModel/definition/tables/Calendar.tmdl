@@ -1,0 +1,88 @@
+table Calendar
+	lineageTag: 7b9801ab-150b-57e5-8961-eaa98c8ae08b
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: dd mmm yyyy
+		lineageTag: 5ecc920f-1150-5c79-b90d-c437a1557727
+		summarizeBy: none
+		sourceColumn: [Date]
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: d3142f36-2698-5f99-b91a-c0d22199ea20
+		summarizeBy: none
+		sourceColumn: [Year]
+
+	column Quarter
+		dataType: string
+		lineageTag: cd0791c5-f9f1-5d9d-b274-c2fbfb314ebe
+		summarizeBy: none
+		sourceColumn: [Quarter]
+
+	column 'Month Number'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 21486b6c-a5bf-55b2-b666-2435bce1588d
+		summarizeBy: none
+		sourceColumn: [Month Number]
+
+	column Month
+		dataType: string
+		lineageTag: 01be150c-c2a7-536d-be44-7e68e7d0efb6
+		summarizeBy: none
+		sourceColumn: [Month]
+		sortByColumn: 'Month Number'
+
+	column 'Month Year'
+		dataType: string
+		lineageTag: 63d4753a-250f-5a2a-9b91-352cfab18c87
+		summarizeBy: none
+		sourceColumn: [Month Year]
+		sortByColumn: 'Year Month'
+
+	column 'Year Month'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5952129e-e86d-55c3-976d-5bde0726b101
+		summarizeBy: none
+		sourceColumn: [Year Month]
+
+	column Weekday
+		dataType: string
+		lineageTag: 4dc35669-dc8f-5bf9-a13e-8178f1941191
+		summarizeBy: none
+		sourceColumn: [Weekday]
+		sortByColumn: 'Weekday Number'
+
+	column 'Weekday Number'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d80dca46-ce82-5a9a-b3c9-840102c08044
+		summarizeBy: none
+		sourceColumn: [Weekday Number]
+
+	partition Calendar = calculated
+		mode: import
+		source =
+				VAR _start = DATE(YEAR(MIN(operations_clean[received_date])), 1, 1)
+				VAR _end = EOMONTH(MAX(MAX(operations_clean[received_date]), MAX(operations_clean[completed_date])), 0)
+				RETURN
+				 ADDCOLUMNS(
+				  CALENDAR(_start, _end),
+				  "Year", YEAR([Date]),
+				  "Quarter", "Q" & ROUNDUP(MONTH([Date]) / 3, 0),
+				  "Month Number", MONTH([Date]),
+				  "Month", FORMAT([Date], "mmm"),
+				  "Month Year", FORMAT([Date], "mmm yyyy"),
+				  "Year Month", YEAR([Date]) * 100 + MONTH([Date]),
+				  "Weekday", FORMAT([Date], "ddd"),
+				  "Weekday Number", WEEKDAY([Date], 2)
+				 )
+

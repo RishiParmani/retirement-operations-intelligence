@@ -1,0 +1,17 @@
+expression ProjectRoot = "C:\Users\Rishi Parmani\Downloads\ROIP_Complete_Project_v3\ROIP" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: bf8be467-efca-5e7f-bd87-cebc296bd585
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression DataFolderPath = Text.TrimEnd(ProjectRoot, "\") & "\data\processed"
+	lineageTag: 0f1be2b0-fc7b-5fa0-9173-7d7de46955b9
+
+	annotation PBI_ResultType = Text
+
+expression DQFolderPath = Text.TrimEnd(ProjectRoot, "\") & "\reports\data_quality"
+	lineageTag: deff2a95-7979-5c4d-abd3-3620902897ca
+
+	annotation PBI_ResultType = Text
+

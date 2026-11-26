@@ -1,0 +1,6 @@
+processing_team,completed,sla_compliance_pct,avg_processing_hours,compliance_rank,gap_to_best_pts
+Team Alpha,38020,73.48,37.14,1,0.0
+Team Beta,37649,73.45,37.57,2,0.03
+Team Gamma,38378,73.24,37.44,3,0.23
+Team Delta,37714,73.16,37.35,4,0.32
+Team Epsilon,37812,73.12,37.21,5,0.36

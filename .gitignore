@@ -1,9 +1,13 @@
 .env
+.venv/
 __pycache__/
 *.pyc
-.venv/
+.pytest_cache/
+logs/
+# Large regenerable data (python scripts/run_pipeline.py recreates them)
 data/raw/*.csv
-data/staging/*.csv
 data/processed/*.csv
-reports/*.png
-reports/*.json
+data/rejected/*.csv
+# Power BI local state
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

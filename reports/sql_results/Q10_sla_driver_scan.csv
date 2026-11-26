@@ -1,0 +1,35 @@
+factor,level,completed,breach_rate_pct,lift_vs_overall,avg_processing_hours
+channel,Mail,15114,27.19,1.02,37.57
+channel,Phone,41790,26.9,1.01,37.38
+channel,Advisor,30497,26.85,1.01,37.51
+channel,Branch,30179,26.63,1.0,37.28
+channel,Online,71993,26.48,0.99,37.22
+exception_status,Exception raised,19327,61.4,2.3,66.47
+exception_status,No exception,170246,22.77,0.85,34.04
+intake_completeness,Information missing,10270,66.17,2.48,71.75
+intake_completeness,Information complete,179303,24.45,0.92,35.37
+operation_type,Plan Administration,13265,27.11,1.01,78.64
+operation_type,Beneficiary Update,16997,26.92,1.01,39.04
+operation_type,Contribution Processing,30368,26.9,1.01,19.62
+operation_type,Fund Transfer,24792,26.79,1.0,19.53
+operation_type,Customer Service Request,22685,26.69,1.0,19.54
+operation_type,Account Maintenance,24537,26.65,1.0,39.13
+operation_type,Withdrawal Processing,22698,26.51,0.99,38.95
+operation_type,Rollover Processing,18927,26.42,0.99,58.7
+operation_type,Distribution Request,15304,26.42,0.99,58.41
+priority,Low,34210,37.85,1.42,44.98
+priority,Medium,91174,29.6,1.11,39.35
+priority,High,51004,18.27,0.68,31.68
+priority,Critical,13185,10.49,0.39,25.59
+region,Unknown,1504,27.53,1.03,38.24
+region,Central,37701,27.08,1.01,37.7
+region,North,37615,27.0,1.01,37.3
+region,East,37467,26.62,1.0,37.13
+region,South,37442,26.53,0.99,37.39
+region,West,37844,26.3,0.98,37.16
+rework_status,Reworked,12513,59.84,2.24,65.31
+rework_status,No rework,177060,24.37,0.91,35.37
+workload_band,95+,63234,32.86,1.23,41.77
+workload_band,75-94,42307,27.83,1.04,38.2
+workload_band,55-74,42149,23.91,0.9,35.21
+workload_band,35-54,41883,19.13,0.72,31.94

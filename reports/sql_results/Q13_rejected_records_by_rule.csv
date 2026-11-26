@@ -1,0 +1,3 @@
+rejection_rule,rejection_reason,records,pct_of_rejected
+R03,Invalid team category,800,57.14
+R02,Duplicate operation_id,600,42.86
